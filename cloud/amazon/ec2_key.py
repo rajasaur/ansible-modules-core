@@ -177,7 +177,7 @@ def main():
                     test = ec2.get_key_pair(tmpkeyname)
 
                 # create tmp key
-                tmpkey = ec2.import_key_pair(tmpkeyname, key_material)
+                tmpkey = ec2.import_key_pair(tmpkeyname, key_material.encode())
                 # get tmp key fingerprint
                 tmpfingerprint = tmpkey.fingerprint
                 # delete tmp key
@@ -186,7 +186,7 @@ def main():
                 if key.fingerprint != tmpfingerprint:
                     if not module.check_mode:
                         key.delete()
-                        key = ec2.import_key_pair(name, key_material)    
+                        key = ec2.import_key_pair(name, key_material.encode())    
 
                         if wait:
                             start = time.time()
@@ -208,7 +208,7 @@ def main():
             if not module.check_mode:
                 if key_material:
                     '''We are providing the key, need to import'''
-                    key = ec2.import_key_pair(name, key_material)
+                    key = ec2.import_key_pair(name, key_material.encode())
                 else:
                     '''
                     No material provided, let AWS handle the key creation and 

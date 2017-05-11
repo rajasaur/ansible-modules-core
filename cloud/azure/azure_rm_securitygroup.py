@@ -358,7 +358,7 @@ def validate_rule(rule, rule_type=None):
     priority = rule.get('priority', None)
     if not priority:
         raise Exception("Rule priority is required.")
-    if not isinstance(priority, (int, long)):
+    if not isinstance(priority, (int)):
         raise Exception("Rule priority attribute must be an integer.")
     if rule_type != 'default' and (priority < 100 or priority > 4096):
         raise Exception("Rule priority must be between 100 and 4096")
@@ -540,7 +540,7 @@ class AzureRMSecurityGroup(AzureRMModuleBase):
 
     def exec_module(self, **kwargs):
 
-        for key in self.module_arg_spec.keys() + ['tags']:
+        for key in list(self.module_arg_spec.keys()) + ['tags']:
             setattr(self, key, kwargs[key])
 
         changed = False
